@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+
+		<link rel="stylesheet" href="../../public/css/jquery-ui-smoothness/jquery-ui-1.10.4.custom.min.css" />
+		<link rel="stylesheet" href="../../public/css/window-content.css" />
+		<script type="text/javascript" src="../../public/javascript/jquery-ui/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="../../public/javascript/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+		<script type="text/javascript" src="../../public/javascript/knockout/knockout-3.1.0.js"></script>
+		<!--
+		<link rel="stylesheet" href="public/css/jquery-ui-smoothness/jquery-ui-1.10.4.custom.min.css" />
+		<link rel="stylesheet" href="public/css/window-content.css" />
+		<script type="text/javascript" src="public/javascript/jquery-ui/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="public/javascript/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+		<script type="text/javascript" src="public/javascript/knockout/knockout-3.1.0.js"></script>
+		-->
+	</head>
+	<body>
+		<div id="filesView">
+			<div class="toolbar">
+				<!--<form class="search-wrapper cf">-->
+					<!--<input type="text" required="required" />-->
+					<!--<button type="submit" class="btn">Recherche</button>-->
+				<!--</form>-->
+				<!--<button class="btn del">Supprimer</button>-->
+				<!--<button class="btn">Actualiser</button>-->
+			</div>
+			<div class="sidebar">
+				<div class="css-treeview">
+					<ul data-bind="template: { name: 'tree-template', foreach: rootFiles }">
+					</ul>
+				</div>
+			</div>
+			<div class="main" data-bind="with: selectedFolder">
+                <div data-bind="foreach: children">
+                    <div class="app-listItem">
+                        <img data-bind="attr: { src: icon }" width="74" height="74" />
+                        <div>
+                            <p class="name-file" data-bind="text: name"></p>
+                            <p>
+                                <a href="#" class="icon-download" title="Télécharger" data-bind="click: $root.download"></a>
+                                <a href="#" class="icon-delete" title="Supprimer" data-bind="click: $root.removeFile"></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+				<!--<ul class="sortable-grid" data-bind="foreach: children">-->
+					<!--<li>-->
+						<!--<img data-bind="attr: { src: Preview }" width="74" height="74" />-->
+						<!--<p data-bind="text: name"></p>-->
+					<!--</li>-->
+				<!--</ul>-->
+			</div>
+			<script type="text/html" id="tree-template">
+				<li data-bind="if: type === 'dir'">
+					<input type="checkbox" data-bind="attr: { id: 'item-'+id }, click: $root.selectFile" />
+					<label style="white-space: nowrap" data-bind="text: name, click: $root.selectFile"></label>
+					<!-- ko if: typeof children !== 'undefined' && children().length > 0 -->
+						<ul data-bind="template: { name: 'tree-template', foreach: children }">
+						</ul>
+					<!-- /ko -->
+				</li>
+			</script>
+		</div>
+		<script type="text/javascript" src="public/javascript/app-window/files.js"></script>
+	</body>
+</html>

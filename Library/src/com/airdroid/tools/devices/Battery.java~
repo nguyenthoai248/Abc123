@@ -1,0 +1,35 @@
+package com.airdroid.tools.devices;
+
+import java.util.HashMap;
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+	public class Battery implements DevicesInterface {
+
+	    public int percentBarterry;// muc pin con lai hien tai
+
+	    @Override
+	    /**
+	     * Tra ve nhung thong tin cua pin: tong dung luong, nhiet do, muc pin
+	     */
+	    public HashMap<String, Double> getInfo() {
+	        // TODO Auto-generated method stub
+	        return null;
+	    }
+	    
+	    public int getPercentBarterry( Intent i) {
+			return percentBarterry = i.getIntExtra("level", 0); //lấy % pin còn lai của hệ thống
+	    }
+	   
+	    public void setPercentBarterry(int percentBarterry) {
+	        this.percentBarterry = percentBarterry;
+	    }
+
+	}
+

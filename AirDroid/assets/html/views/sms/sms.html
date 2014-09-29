@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		
+		<link rel="stylesheet" href="../../public/css/jquery-ui-smoothness/jquery-ui-1.10.4.custom.min.css" />
+		<link rel="stylesheet" href="../../public/css/window-content.css" />
+		<script type="text/javascript" src="../../public/javascript/jquery-ui/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="../../public/javascript/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+		<script type="text/javascript" src="../../public/javascript/knockout/knockout-3.1.0.js"></script>
+		<!--
+		<link rel="stylesheet" href="public/css/jquery-ui-smoothness/jquery-ui-1.10.4.custom.min.css" />
+		<link rel="stylesheet" href="public/css/window-content.css" />
+		<script type="text/javascript" src="public/javascript/jquery-ui/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="public/javascript/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+		<script type="text/javascript" src="public/javascript/knockout/knockout-3.1.0.js"></script>
+		-->
+	</head>
+	<body>
+		<div id="smsView">
+			<div class="toolbar">
+				<button class="btn" data-bind="click: refreshSmsThread">Actualiser</button>
+			</div>
+			<div class="sidebar">
+				<ul id="smsList" data-bind="foreach: threads">
+					<li>
+						<p class="sms-item" data-bind="click: $parent.selectThread, css: { selected: $data == $parent.selectedThread() }">
+							<img class="contact-icon" data-bind="attr: { src: img }"/>
+                            <!-- ko if: name == "null" -->
+    							<span data-bind="text: addr"></span>
+                            <!-- /ko -->
+                            <!-- ko if: name != "null" -->
+                                <span data-bind="text: name"></span>
+                            <!-- /ko -->
+                            <span>(<!--ko text: count-->)<!--/ko-->)</span>
+						</p>
+					</li>
+				</ul>
+			</div>
+			<div class="main" data-bind="with: currentChat">
+				<div>
+					<label for="tags">To : </label>
+					<!-- ko if: $root.currentMode() === $root.modeEnum.NEW_SMS -->
+						<input id="tags" data-bind="jqAuto: { autoFocus: true }, jqAutoSource: $root.contacts, jqAutoQuery: searchContacts, jqAutoSourceLabel: 'displayName', jqAutoSourceInputValue: 'name', jqAutoSourceValue: 'guid'">
+					<!-- /ko -->
+					<!-- ko if: $root.currentMode() === $root.modeEnum.READ_THREAD -->
+						<div data-bind="with: $root.selectedThread">
+                            <!-- ko if: name == "null" -->
+                                <span data-bind="text: addr"></span>
+                            <!-- /ko -->
+                            <!-- ko if: name != "null" -->
+                                <span data-bind="text: name"></span>
+                            <!-- /ko -->
+						</div>
+					<!-- /ko -->
+					<!-- ko if: $root.currentMode() === $root.modeEnum.NEW_SMS -->
+						<button data-bind="jqAutoCombo: 'auto'">+</button>
+					<!-- /ko -->
+				</div>
+				<div></div>
+				<ol class="chat" data-bind="foreach: messages">
+					<li data-bind="attr: { class: sent ? 'me' : 'them'}">
+						<blockquote>
+                            <div data-bind="text: message"></div>
+                            <div data-bind="attr: { class: sent ? 'date-message-me' : 'date-message-them'}, text: date"></div>
+						</blockquote>
+					</li>
+				</ol>
+				<form action="datas/sms/send_sms.xhtml"  method="POST" data-bind="submit: $parent.submitSms">
+					<input type="hidden" name="number" data-bind="value: addr">
+                    <textarea class="text-sms" name="message" id="message" placeholder="write a message"></textarea>
+					<input type="submit" value="Envoyer">
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript" src="public/javascript/app-window/sms.js"></script>
+	</body>
+</html>

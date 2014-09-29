@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		
+		<link rel="stylesheet" href="../../public/css/jquery-ui-smoothness/jquery-ui-1.10.4.custom.min.css" />
+		<link rel="stylesheet" href="../../public/css/window-content.css" />
+		<script type="text/javascript" src="../../public/javascript/jquery-ui/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="../../public/javascript/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+		<script type="text/javascript" src="../../public/javascript/knockout/knockout-3.1.0.js"></script>
+		<!--
+		<link rel="stylesheet" href="public/css/jquery-ui-smoothness/jquery-ui-1.10.4.custom.min.css" />
+		<link rel="stylesheet" href="public/css/window-content.css" />
+		<script type="text/javascript" src="public/javascript/jquery-ui/jquery-1.10.2.js"></script>
+		<script type="text/javascript" src="public/javascript/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+		<script type="text/javascript" src="public/javascript/knockout/knockout-3.1.0.js"></script>
+		-->
+	</head>
+	<body>
+		<div id="appsView">
+			<div class="toolbar">
+				<form class="search-wrapper cf">
+					<input type="text" required="required">
+					<button type="submit" class="btn">Search</button>
+				</form>
+				<button class="btn">Refresh</button>
+			</div>
+			<div class="main-without-sidebar" data-bind="foreach: apps">
+				<div class="app-listItem">
+					<img data-bind="attr: { src: icon }" width="74" height="74" />
+					<div>
+						<p class="name-file" data-bind="text: name"></p>
+						<p>
+							<a href="#" class="icon-download" title="Télécharger" data-bind="click: $parent.download"></a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="public/javascript/app-window/app.js"></script>
+	</body>
+</html>

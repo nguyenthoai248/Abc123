@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="170dp"
+    android:minWidth="260dp"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/menu_titile_icon" />
+
+        <TextView
+            android:id="@+id/input_label"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center"
+            android:text="New Folder"
+            android:textColor="@color/black"
+            android:textColorLink="@android:color/black"
+            android:textSize="25dp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/input_inputText"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/edit_text_bg"
+        android:ems="10"
+        android:inputType="none" >
+
+        <requestFocus />
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="@color/lightGray"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" >
+
+        <Button
+            android:id="@+id/input_create_b"
+            android:layout_width="105dp"
+            android:layout_height="52dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/uc_down_bg"
+            android:enabled="true"
+            android:text="@string/ok"
+            android:textStyle="normal" />
+
+        <Button
+            android:id="@+id/input_cancel_b"
+            android:layout_width="105dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/uc_down_bg"
+            android:enabled="true"
+            android:text="@string/cancel"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+
+</LinearLayout>

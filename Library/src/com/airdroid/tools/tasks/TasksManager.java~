@@ -1,0 +1,266 @@
+/*******************************************************************************
+ * Copyright (c) 2014 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
+package com.airdroid.tools.tasks;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.util.Log;
+
+public class TasksManager extends Activity implements TasksInterface {
+
+	private static final String PREFS_WHITE_LIST = "WhiteList";
+	
+	private SharedPreferences prefs;
+	private List<String> runningPackages = new ArrayList<String>();
+	private List<String> reservedPackages = new ArrayList<String>();
+	private List<String> whiteListPackages = new ArrayList<String>();
+	
+	final int KB = 1024;
+	final int MB = KB * 1024;
+
+	private static int size;
+
+	private ActivityManager manager;
+	
+	public void setReservedPackages() {
+		if (reservedPackages.isEmpty()) {
+			reservedPackages.add("system");
+			reservedPackages.add("com.google.process.gapps");
+			reservedPackages.add("android.process.acore");
+			reservedPackages.add("android.process.media");
+		}
+	}
+
+	/**
+	 * Dua ra cac tien trinh dang chay
+	 * 
+	 * @return
+	 * @throws NameNotFoundException
+	 */
+
+	public ArrayList<Task> listProcess(Context context, Drawable iconNotFound) {
+		ArrayList<Task> list = new ArrayList<Task>();
+
+		// list.clear();
+
+		manager = (ActivityManager) context
+				.getSystemService(ACTIVITY_SERVICE);
+		List<RunningAppProcessInfo> tasks = manager.getRunningAppProcesses();
+		size = tasks.size();
+		Log.d("TAG", "size = " + size);
+
+		int i = 0;
+		for (RunningAppProcessInfo procInfo : tasks) {
+			String packageName = procInfo.processName.split(":")[0];
+			Log.d("Running task", "Running task: " + packageName + "\t\t ID: "
+					+ tasks.get(i).pid + "   " + i);
+
+			if (packageName != "system"
+					&& packageName != "com.google.process.gapps"
+					&& packageName != "android.process.acore"
+					&& packageName != "android.process.media")
+				try {
+					ApplicationInfo app = context.getPackageManager()
+							.getApplicationInfo(packageName,
+									PackageManager.GET_META_DATA);
+					String label = context.getPackageManager()
+							.getApplicationLabel(app).toString();
+					Drawable icon = context.getPackageManager()
+							.getApplicationIcon(app);
+
+					// arrProcessMemory.add(i, tasks.get(i).);
+					// android.os.Debug.MemoryInfo[] memorys = manager
+					// .getProcessMemoryInfo(pids);
+					// int tmp = 0;
+					// String memory = tmp + "kb";
+
+					Task task = new Task(label, icon, tasks.get(i).pid,
+							packageName);
+					list.add(task);
+					Log.d("TAG", "Label: " + list.get(i).getLabel());
+					Log.d("TAG", "Icon: " + list.get(i).getIcon());
+					// Log.d("TAG", "Memory: " + list.get(i).getMemory());
+				} catch (Exception e) {
+					Task task = new Task(packageName, iconNotFound,
+							tasks.get(i).pid, packageName);
+					Log.d("TAG", e.getMessage() + "\t" + packageName);
+					list.add(task);
+					// list.get(i).setMemory(null);
+					Log.d("Label", "Khong co Icon hoac Label");
+				}
+			else
+				Log.d("TAG", "thuoc system");
+			i++;
+		}
+
+		return list;
+	}
+
+	/**
+	 * stop process duoc chon
+	 * 
+	 * @param pid
+	 *            la pid cua process
+	 * @return true neu stop duoc tien trinh, false neu khong stop duoc.
+	 */
+	public boolean killProcess(String packageName, Context context) {
+		int pid = getPIDbyPackageName(packageName, context);
+		manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		if (pid <= 0) {
+			return false;
+		}
+		if (pid == android.os.Process.myPid()) {
+			android.os.Process.killProcess(pid);
+			return true;
+		}
+		Method method = null;
+		try {
+			// Since API_LEVEL 8 : v2.2
+			method = manager.getClass().getMethod("killBackgroundProcesses",
+					new Class[] { String.class });
+		} catch (NoSuchMethodException e) {
+			// less than 2.2
+			try {
+				method = manager.getClass().getMethod("restartPackage",
+						new Class[] { String.class });
+			} catch (NoSuchMethodException ee) {
+				ee.printStackTrace();
+			}
+		}
+		if (method != null) {
+			try {
+				// method.invoke(manager, getPackageName());
+				// System.out.println("kill method  " + method.getName()
+				// + " invoked " + packageName);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		android.os.Process.killProcess(pid);
+		return true;
+	}
+
+	/**
+	 * Dua ra thong tin ve tien trinh dang chay
+	 * 
+	 * @param packageName
+	 *            ten goi cai dat cua tien trinh
+	 * @return
+	 */
+	public void details(String packageName) {
+		try {
+			// Open the specific App Info page:
+			Intent intent = new Intent(
+					android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+			intent.setData(Uri.parse("package:" + packageName));
+			startActivity(intent);
+
+		} catch (ActivityNotFoundException e) {
+			// Open the generic Apps page:
+			Intent intent = new Intent(
+					android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+			startActivity(intent);
+
+		}
+	}
+
+	/**
+	 * go cai dat app
+	 * 
+	 * @param packageName
+	 *            ten goi cai dat cua app
+	 * @return true neu go thanh cong, false neu khong thanh cong
+	 */
+	@SuppressLint("InlinedApi")
+	public void uninstallPackage(String packageName) {
+		// TODO Auto-generated method stub
+		Uri packageUri = Uri.parse("package:" + packageName);
+		Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE,
+				packageUri);
+		startActivityForResult(uninstallIntent, 0);
+	}
+
+	private int getPIDbyPackageName(String packageName, Context context) {
+		manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+
+		for (RunningAppProcessInfo processInfo : manager
+				.getRunningAppProcesses()) {
+			if (processInfo.processName == packageName) {
+				return processInfo.pid;
+			}
+		}
+		return -1;
+	}
+	
+	public static int size() {
+		return size;
+	}
+	
+	private void loadWhiteList() {
+		this.whiteListPackages.clear();
+		
+		for (int i=0; i <64; i++) {
+			String packageName = this.prefs.getString(PREFS_WHITE_LIST + i, null);
+			
+			if (packageName == null) {
+				break;
+			}
+			
+			this.whiteListPackages.add(packageName);
+		}
+	}
+	
+	private void saveWhiteList() {
+		SharedPreferences.Editor editor = this.prefs.edit();
+
+		for (int i=0; i <64; i++) {
+			String packageName = (this.whiteListPackages.size() > i) ? this.whiteListPackages.get(i) : null;
+			editor.putString(PREFS_WHITE_LIST + i, packageName);
+		}
+
+		editor.commit();
+	}
+
+	private void refreshTaskList(Context context) {
+		manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningAppProcessInfo> processList = manager.getRunningAppProcesses();
+		this.runningPackages.clear();
+
+		for (RunningAppProcessInfo procInfo : processList) {
+			String packageName = procInfo.processName.split(":")[0];
+			
+			if (this.getPackageName().equals(packageName) || (this.reservedPackages.contains(packageName))) {
+				continue;
+			}
+
+			if (!this.runningPackages.contains(packageName)) {
+				this.runningPackages.add(packageName);
+			}
+		}
+
+	}
+}
+

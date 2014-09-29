@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" href="../../public/css/jquery-ui-smoothness/jquery-ui-1.10.4.custom.min.css"/>
+    <link rel="stylesheet" href="../../public/css/window-content.css"/>
+    <script type="text/javascript" src="../../public/javascript/jquery-ui/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="../../public/javascript/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+    <script type="text/javascript" src="../../public/javascript/knockout/knockout-3.1.0.js"></script>
+    <!--
+    <link rel="stylesheet" href="public/css/jquery-ui-smoothness/jquery-ui-1.10.4.custom.min.css" />
+    <link rel="stylesheet" href="public/css/window-content.css" />
+    <script type="text/javascript" src="public/javascript/jquery-ui/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="public/javascript/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+    <script type="text/javascript" src="public/javascript/knockout/knockout-3.1.0.js"></script>
+    -->
+</head>
+<body>
+<div id="callLogsView">
+    <div class="toolbar">
+
+        <button class="btn del" data-bind="click: deleteAllCallLog">Tous supprimer</button>
+    </div>
+    <div class="main-without-sidebar">
+        <table class="call_table">
+            <thead>
+            <tr>
+                <td style="width: 10%">Appel</td>
+                <td style="width: 20%">Nom</td>
+                <td style="width: 25%">Numéro</td>
+                <td style="width: 30%">Date</td>
+                <td style="width: 10%">Durée</td>
+                <td style="width: 5%">Supprimer</td>
+            </tr>
+            </thead>
+        </table>
+
+        <table class="call_table">
+            <tbody data-bind="foreach: callLogs">
+            <tr>
+                <td style="text-align: center"><img
+                        data-bind="attr: { src: '/public/img/'.concat(type).concat('.png') }"
+                        height="25px"/></td>
+                <!-- ko if: name == "null" -->
+                    <td data-bind="text: number"></td>
+                <!-- /ko -->
+                <!-- ko if: name != "null" -->
+                    <td data-bind="text: name"></td>
+                <!-- /ko -->
+                <td data-bind="text: number"></td>
+                <td data-bind="text: date"></td>
+                <td data-bind="text: duration"></td>
+                <td><a href="#" class="icon-delete" data-bind="click: $root.deleteCallLog" title="Supprimer"></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript" src="public/javascript/app-window/callLog.js"></script>
+</body>
+</html>

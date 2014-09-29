@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/autumn2"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/url"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        android:text="@string/url"
+        android:textColor="@color/white" 
+        android:textSize="20sp"/>
+
+    <ToggleButton
+        android:id="@+id/toggleButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/url"
+        android:layout_centerHorizontal="true"
+        android:onClick="onToggleClicked"
+        android:text="@string/toggle_button" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/url"
+        android:layout_marginBottom="41dp"
+        android:contentDescription="@string/description"
+        android:src="@drawable/cn_banner" />
+
+</RelativeLayout>

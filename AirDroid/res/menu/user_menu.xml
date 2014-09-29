@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.contextmenu.MainActivity" >
+
+    <item
+        android:id="@+id/details"
+        android:showAsAction="never"
+        android:title="@string/menu_details"/>
+    
+    <item
+        android:id="@+id/run"
+        android:title="@string/menu_run"
+        android:showAsAction="never" />
+    
+    <item
+        android:id="@+id/uninstall"
+        android:title="@string/menu_uninstall"
+        android:showAsAction="never" />
+    
+    <item
+        android:id="@+id/share"
+        android:title="@string/menu_share"
+        android:showAsAction="never" />
+    
+</menu>

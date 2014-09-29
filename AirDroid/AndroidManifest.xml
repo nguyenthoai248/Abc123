@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.airdroid"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/main_ae_ic_guide"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.airdroid.SplashActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.airdroid.MainTabActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.airdroid.server.MyServerActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.airdroid.server.MyServerActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.airdroid.ToolsActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.airdroid.server.ToolsActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.airdroid.AboutsActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.airdroid.server.AboutsActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.airdroid.AppsActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.airdroid.AppsActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.airdroid.TasksActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.airdroid.TasksActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.airdroid.DevicesActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.airdroid.DevicesActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.airdroid.server.MyServerService" />
+
+        <activity android:name="com.airdroid.FilesActivity" >
+            <intent-filter>
+                <action android:name="com.airdroid.FilesActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.airdroid.Settings"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.airdroid.Main"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <data android:mimeType="*/*" />
+
+                <category android:name="android.intent.category.OPENABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.airdroid.AudioPlayblack"
+            android:label="@string/media_dialog"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.airdroid.DirectoryInfo"
+            android:enabled="true"
+            android:label="@string/dir_info" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:mimeType="application/manager" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.airdroid.HelpManager"
+            android:label="About Open Manager"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name="com.airdroid.ViewDirActivity"
+            android:label="@string/title_activity_view_dir" >
+        </activity>
+    </application>
+
+</manifest>
